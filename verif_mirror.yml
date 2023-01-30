@@ -8,7 +8,6 @@ on:
     branches-ignore:
      - 'ga-ignore-**'
 
-
 env:
   MIRROR_URL: "MIRROR_URL_MIRROR_GENERATOR"
   EXECUTABLES: "EXECUTABLE_MIRROR_GENERATOR"
@@ -79,8 +78,8 @@ jobs:
         run: exit 1
 
       - name: Starts tests
-       run: make tests_run
-       timeout-minutes: 2
+        run: make tests_run
+        timeout-minutes: 2
 
   push_to_mirror:
     name: Pushes the current repository files to a given mirror repository

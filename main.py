@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2023
+## mirror-generator
+## File description:
+## test
+##
+
 from github import Github, AuthenticatedUser, Organization, GithubException
 from sys import argv
 import json
@@ -87,9 +94,9 @@ def main():
     github_identifier: Github = Github(file["token"])
     orgaName = repo_info[0]
     repoName = ".".join(repo_info[1].split(".")[:-1])
-    # generateMirror(orgaName, repoName, github_identifier)
-    # generateFoldersWithRepo(argv[1], github_identifier.get_user().login, repoName)
-    # generateMirrorWorkflow(argv[1].split('-')[-2], argv[1], repoName)
+    generateMirror(orgaName, repoName, github_identifier)
+    generateFoldersWithRepo(argv[1], github_identifier.get_user().login, repoName)
+    generateMirrorWorkflow(argv[1].split('-')[-2], argv[1], repoName)
     pushMirror(f"{repoName}-mirror", argv[1].split('-')[-2])
 
 if __name__ == '__main__':
