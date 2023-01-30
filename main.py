@@ -12,26 +12,26 @@ import json
 import subprocess
 import os
 
-def generateMirror(orgaName: str, repoName: str, github: Github):
+def generate_mirror(orga_name: str, repo_name: str, github: Github):
     try:
-        orga = github.get_organization(orgaName)
+        orga = github.get_organization(orga_name)
     except GithubException as err:
         print("Organization not found:", err)
-        return
+        exit(84)
     try:
-        repo = orga.get_repo(repoName)
+        repo = orga.get_repo(repo_name)
     except GithubException as err:
         print("Repository not found:", err)
-        return
+        exit(84)
     user = github.get_user()
-    mirrorName = repoName + "-mirror"
+    mirror_name = repo_name + "-mirror"
     try:
-        user.get_repo(mirrorName)
-        print("Mirror already exist:", mirrorName)
-        return
+        user.get_repo(mirror_name)
+        print("Mirror already exist:", mirror_name)
+        exit(84)
     except:
         user.create_repo(
-            mirrorName,
+            mirror_name,
             allow_rebase_merge=True,
             auto_init=False,
             has_issues=True,
@@ -39,65 +39,65 @@ def generateMirror(orgaName: str, repoName: str, github: Github):
             has_wiki=False,
             private=True,
         )
-    repo = user.get_repo(mirrorName)
+    repo = user.get_repo(mirror_name)
     f = open(os.path.expanduser('~') + "/.ssh/id_rsa", "r")
     private_key = f.read()
     f.close()
     repo.create_secret("GIT_SSH_PRIVATE_KEY", private_key)
 
-def generateFoldersWithRepo(repoSshLink: str, userName: str, repoName: str):
-    mirrorSshLink = f"git@github.com:{userName}/{repoName}-mirror.git"
-    mirrorName = f"{repoName}-mirror"
-    projectName = repoSshLink.split('-')[-2]
-    actions = [(["mkdir", projectName], "Folder already exist: " + projectName),
-               (["git", "clone", repoSshLink], "Can't clone repository: " + repoSshLink),
-               (["mv", repoName, projectName], "Can't move folder: " + repoName),
-               (["git", "clone", mirrorSshLink], "Can't clone repository: " + mirrorSshLink),
-               (["mv", mirrorName, projectName], "Can't move folder: " + mirrorName)]
+def generate_folders_with_repo(repo_ssh_link: str, user_name: str, repo_name: str):
+    mirror_ssh_link = f"git@github.com:{user_name}/{repo_name}-mirror.git"
+    mirror_name = f"{repo_name}-mirror"
+    project_name = repo_ssh_link.split('-')[-2]
+    actions = [(["mkdir", project_name], "Folder already exist: " + project_name),
+               (["git", "clone", repo_ssh_link], "Can't clone repository: " + repo_ssh_link),
+               (["mv", repo_name, project_name], "Can't move folder: " + repo_name),
+               (["git", "clone", mirror_ssh_link], "Can't clone repository: " + mirror_ssh_link),
+               (["mv", mirror_name, project_name], "Can't move folder: " + mirror_name)]
     for action in actions:
         if subprocess.run(action[0]).returncode == 1:
             print(action[1])
-            return
+            exit(84)
 
-def generateMirrorWorkflow(binaryName: str, repoSsh: str, repoName:str):
-    mirrorName = f"{repoName}-mirror"
+def generate_mirror_workflow(binary_name: str, repo_ssh: str, repo_name:str):
+    mirror_name = f"{repo_name}-mirror"
     f = open("verif_mirror.yml", "r")
-    file = f.read()
+    mirror_file_data = f.read()
     f.close()
-    file = file.replace("MIRROR_URL_MIRROR_GENERATOR", repoSsh)
-    file = file.replace("EXECUTABLE_MIRROR_GENERATOR", binaryName)
-    actions = [(["mkdir", f"{binaryName}/{mirrorName}/.github"], "Folder already exist: " + f"{binaryName}/{mirrorName}/.github"),
-               (["mkdir", f"{binaryName}/{mirrorName}/.github/workflows"], "Folder already exist: " + f"{binaryName}/{mirrorName}/.github/workflows")]
+    mirror_file_data = mirror_file_data.replace("MIRROR_URL_MIRROR_GENERATOR", repo_ssh)
+    mirror_file_data = mirror_file_data.replace("EXECUTABLE_MIRROR_GENERATOR", binary_name)
+    actions = [(["mkdir", f"{binary_name}/{mirror_name}/.github"], "Folder already exist: " + f"{binary_name}/{mirror_name}/.github"),
+               (["mkdir", f"{binary_name}/{mirror_name}/.github/workflows"], "Folder already exist: " + f"{binary_name}/{mirror_name}/.github/workflows")]
     for action in actions:
         if subprocess.run(action[0]).returncode == 1:
             print(action[1])
-            return
-    mirror_file = open(f"{binaryName}/{mirrorName}/.github/workflows/verif_mirror.yml", "w")
-    mirror_file.write(file)
+            exit(84)
+    mirror_file = open(f"{binary_name}/{mirror_name}/.github/workflows/verif_mirror.yml", "w")
+    mirror_file.write(mirror_file_data)
     mirror_file.close()
 
-def pushMirror(mirrorName: str, binaryName: str):
-    actions = [(["git", "-C", f"{binaryName}/{mirrorName}/", "add", "."], "No add can be done"),
-               (["git", "-C", f"{binaryName}/{mirrorName}/", "commit", "-m", "CI/CD push"], "No commit can be done"),
-               (["git", "-C", f"{binaryName}/{mirrorName}/", "push"], "No push can be done")]
+def push_mirror(mirror_name: str, binary_name: str):
+    actions = [(["git", "-C", f"{binary_name}/{mirror_name}/", "add", "."], "No add can be done"),
+               (["git", "-C", f"{binary_name}/{mirror_name}/", "commit", "-m", "CI/CD push"], "No commit can be done"),
+               (["git", "-C", f"{binary_name}/{mirror_name}/", "push"], "No push can be done")]
     for action in actions:
         if subprocess.run(action[0]).returncode == 1:
             print(action[1])
-            return
+            exit(84)
 
 def main():
     if len(argv) != 2:
         exit(84)
     repo_info = argv[1].split(":")[1].split("/")
-    file = json.load(open("data.json"))
+    json_file = json.load(open("data.json"))
 
-    github_identifier: Github = Github(file["token"])
-    orgaName = repo_info[0]
-    repoName = ".".join(repo_info[1].split(".")[:-1])
-    generateMirror(orgaName, repoName, github_identifier)
-    generateFoldersWithRepo(argv[1], github_identifier.get_user().login, repoName)
-    generateMirrorWorkflow(argv[1].split('-')[-2], argv[1], repoName)
-    pushMirror(f"{repoName}-mirror", argv[1].split('-')[-2])
+    github_identifier: Github = Github(json_file["token"])
+    orga_name = repo_info[0]
+    repo_name = ".".join(repo_info[1].split(".")[:-1])
+    generate_mirror(orga_name, repo_name, github_identifier)
+    generate_folders_with_repo(argv[1], github_identifier.get_user().login, repo_name)
+    generate_mirror_workflow(argv[1].split('-')[-2], argv[1], repo_name)
+    push_mirror(f"{repo_name}-mirror", argv[1].split('-')[-2])
 
 if __name__ == '__main__':
     main()
