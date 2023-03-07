@@ -1,4 +1,4 @@
-### How it works ?
+### How does it works ?
 1. Clone this repository.
 2. Create a github developper token with all permissions (I don't know which one you must take)
 3. Change `[your token]` of `data.json` file by ... your token (NO WAY?!?). So, it should looks like this: 
