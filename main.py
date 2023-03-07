@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 ##
-## EPITECH PROJECT, 2023
+## @Miou-zora PROJECT, 2023
 ## mirror-generator
 ## File description:
-## test
+## why do you look at this aweful code ...
 ##
 
 from github import Github, AuthenticatedUser, Organization, GithubException
