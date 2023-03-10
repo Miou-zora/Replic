@@ -10,7 +10,7 @@ on:
     branches-ignore:
      - 'ga-ignore-**'
 
-env:
+dd
   MIRROR_URL: "MIRROR_URL_MIRROR_GENERATOR"
   EXECUTABLES: "EXECUTABLE_MIRROR_GENERATOR"
 
