@@ -98,8 +98,8 @@ def main():
     while i < len(argv):
         arg = argv[i]
         if arg == "--friend":
-            github_usernames.append(argv[i + 1:i + 3])
-            i += 7
+            github_usernames.append(argv[i + 1:len(argv) - 1])
+            i += len(argv) - 1
     repo_info = argv[len(argv) - 1].split(":")[1].split("/")
     json_file = json.load(open("data.json"))
     github_identifier: Github = Github(json_file["token"])
