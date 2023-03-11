@@ -97,7 +97,7 @@ def main():
     i = 1
     while i < len(argv):
         arg = argv[i]
-        if arg == "--friend":
+        if arg == "--friend" or arg == "-f":
             github_usernames.append(argv[i + 1:len(argv) - 1])
             i += len(argv) - 1
     repo_info = argv[len(argv) - 1].split(":")[1].split("/")
