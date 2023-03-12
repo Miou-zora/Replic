@@ -19,7 +19,7 @@ jobs:
     name: Checks if the repository is clean and void of any unwanted files (temp files, binary files, etc.)
     runs-on: ubuntu-latest
     env:
-      UNWANTED_REGEX: (.*\.gc(no|da|ov))$|(.*\.(a|o|so))$|(.*~)$|^(#.*#)$|(.*(?i)pain_au_chocolat.*)|^tmp\/.*|.*\/tmp\/.*
+      UNWANTED_REGEX: ^(?!.*tests\/).*gc(no|da|ov)$|(.*\.(a|o|so))$|(.*~)$|^(#.*#)$|(.*(?i)pain_au_chocolat.*)|^tmp\/.*|.*\/tmp\/.*
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
