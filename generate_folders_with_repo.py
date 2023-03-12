@@ -3,7 +3,7 @@
 ## @Miou-zora PROJECT, 2023
 ## mirror-generator
 ## File description:
-## why do you look at this aweful code ...
+## generate_folders_with_repo.py - generate folders with repo and mirror repo
 ##
 
 import subprocess

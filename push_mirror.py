@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ##
-## @VyOkPROJECT, 2023
+## @Miou-zora PROJECT, 2023
 ## mirror-generator
 ## File description:
 ## why do you look at this aweful code ...
