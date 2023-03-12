@@ -14,5 +14,4 @@ def push_mirror(mirror_name: str, binary_name: str):
                (["git", "-C", f"{binary_name}/{mirror_name}/", "push"], "No push can be done")]
     for action in actions:
         if subprocess.run(action[0]).returncode == 1:
-            print(action[1])
-            exit(84)
+            raise Exception(action[1])

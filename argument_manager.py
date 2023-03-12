@@ -13,5 +13,5 @@ def argumentManager():
     parser.add_argument("--friend", "-f", nargs=1, action="extend", help="Can add friend to mirror repository")
     parser.add_argument("sshKey", nargs="+", help="SSH key(s) to be added to the mirror repository")
     if not parser.parse_args().sshKey:
-        parser.error("arg > 2 is required")
+        raise Exception("You must provide a SSH key")
     return parser.parse_args()

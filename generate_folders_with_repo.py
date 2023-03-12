@@ -19,5 +19,4 @@ def generate_folders_with_repo(repo_ssh_link: str, user_name: str, repo_name: st
                (["mv", mirror_name, project_name], "Can't move folder: " + mirror_name)]
     for action in actions:
         if subprocess.run(action[0]).returncode == 1:
-            print(action[1])
-            exit(84)
+            raise Exception(action[1])

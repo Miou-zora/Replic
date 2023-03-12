@@ -14,19 +14,16 @@ def generate_mirror(orga_name: str, repo_name: str, github: Github):
     try:
         orga = github.get_organization(orga_name)
     except GithubException as err:
-        print("Organization not found:", err)
-        exit(84)
+        raise Exception("Unable to find organization")
     try:
         repo = orga.get_repo(repo_name)
     except GithubException as err:
-        print("Repository not found:", err)
-        exit(84)
+        raise Exception("Unable to find repository")
     user = github.get_user()
     mirror_name = repo_name + "-mirror"
     try:
         user.get_repo(mirror_name)
-        print("Mirror already exist:", mirror_name)
-        exit(84)
+        raise Exception("Mirror already exists")
     except:
         user.create_repo(
             mirror_name,

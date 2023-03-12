@@ -15,7 +15,5 @@ def add_collaborators(github_usernames, repo_name, github: Github):
         try:
             user = github.get_user(username)
         except GithubException as err:
-            print(github_usernames)
-            print("User not found:", err)
-            exit(84)
+            raise Exception(f"User {username} does not exist")
         repo.add_to_collaborators(user, "push")

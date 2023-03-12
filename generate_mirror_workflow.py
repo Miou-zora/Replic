@@ -19,8 +19,7 @@ def generate_mirror_workflow(binary_name: str, repo_ssh: str, repo_name:str):
                (["mkdir", f"{binary_name}/{mirror_name}/.github/workflows"], "Folder already exist: " + f"{binary_name}/{mirror_name}/.github/workflows")]
     for action in actions:
         if subprocess.run(action[0]).returncode == 1:
-            print(action[1])
-            exit(84)
+            raise Exception(action[1])
     mirror_file = open(f"{binary_name}/{mirror_name}/.github/workflows/verif_mirror.yml", "w")
     mirror_file.write(mirror_file_data)
     mirror_file.close()
