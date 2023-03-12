@@ -3,12 +3,13 @@
 ## @VyOkPROJECT, 2023
 ## mirror-generator
 ## File description:
-## why do you look at this aweful code ...
+## argument manager it's parser for arguments and return it to main
 ##
 
 import argparse
 
 def argumentManager():
     parser = argparse.ArgumentParser(description="A beautiful mirror-generator.")
-    parser.add_argument("--friend", "-f", nargs="+", help="Can add friend to mirror repository")
+    parser.add_argument("--friend", "-f", nargs=1, action="extend", help="Can add friend to mirror repository")
+    parser.add_argument("sshKey", nargs=1)
     return parser.parse_args()
