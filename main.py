@@ -17,9 +17,6 @@ from generate_folders_with_repo import *
 from generate_mirror import *
 
 def main():
-    if len(argv) < 2:
-        exit(84)
-
     args = argumentManager()
     repo_info = argv[len(argv) - 1].split(":")[1].split("/")
     json_file = json.load(open("data.json"))
