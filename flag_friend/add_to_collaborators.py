@@ -3,7 +3,7 @@
 ## @VyOkPROJECT, 2023
 ## mirror-generator
 ## File description:
-## why do you look at this aweful code ...
+## add_to_collaborators - Add collaborators to the mirror repository on Github
 ##
 
 from github import Github, AuthenticatedUser, Organization, GithubException
