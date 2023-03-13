@@ -1,0 +1,4 @@
+[run]
+omit = /usr/lib/python3/dist-packages/*,
+       **/__init__.py,
+       **/test/**
