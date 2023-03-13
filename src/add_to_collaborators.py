@@ -8,7 +8,7 @@
 
 from github import Github, AuthenticatedUser, Organization, GithubException
 
-def add_collaborators(github_usernames, repo_name, github: Github):
+def add_collaborators(github_usernames, repo_name, github: Github) -> None:
     user = github.get_user()
     repo = user.get_repo(repo_name)
     for username in github_usernames:
