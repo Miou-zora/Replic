@@ -10,11 +10,11 @@ from github import Github
 from sys import argv
 import json
 from src.add_to_collaborators import *
-from argument_manager import *
-from push_mirror import *
-from generate_mirror_workflow import *
-from generate_folders_with_repo import *
-from generate_mirror import *
+from src.argument_manager import *
+from src.push_mirror import *
+from src.generate_mirror_workflow import *
+from src.generate_folders_with_repo import *
+from src.generate_mirror import *
 
 def main():
     args = argumentManager()
