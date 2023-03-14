@@ -92,5 +92,32 @@ class Testadd_collaborators(unittest.TestCase):
         github.assert_has_calls([call.get_user(), call.get_user(users[0])])
         self.assertEqual(repo_mock.call_count, 0)
 
+    @patch('src.add_to_collaborators.Github')
+    def test_none_user(self, github):
+        
+        repo_mock = MagicMock()
+        
+        user_mock = MagicMock()
+        user_mock.get_repo.return_value = repo_mock
+        
+        def side_effect(name="thereIsNoName"):
+            possibleName = ["user1", "user2"]
+            if name in possibleName:
+                return user_mock
+            elif name == "thereIsNoName":
+                return user_mock
+            else:
+                raise GithubException(84, "Unvalid Username", None)
+        
+        github.get_user.side_effect = side_effect
+        
+        users = None
+        repo_name = "repo_name"
+        
+        add_to_collaborators.add_collaborators(users, repo_name, github)
+        
+        github.assert_has_calls([call.get_user()])
+        self.assertEqual(repo_mock.call_count, 0)
+
 if __name__ == "__main__":
     unittest.main()

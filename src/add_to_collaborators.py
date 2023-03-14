@@ -11,6 +11,8 @@ from github import Github, AuthenticatedUser, Organization, GithubException
 def add_collaborators(github_usernames, repo_name, github: Github) -> None:
     user = github.get_user()
     repo = user.get_repo(repo_name)
+    if type(github_usernames) != list:
+        return
     for username in github_usernames:
         try:
             user = github.get_user(username)
