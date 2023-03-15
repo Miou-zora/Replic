@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 ##
-## @VyOkPROJECT, 2023
-## mirror-generator
+## @Miou-zora Project, Mirror-Generator, 2023
+## add_to_collaborators.py
 ## File description:
-## add_to_collaborators - Add collaborators to the mirror repository on Github
+## Add collaborators to the mirror repository on Github.
 ##
 
 from github import Github, GithubException, AuthenticatedUser, Repository, NamedUser

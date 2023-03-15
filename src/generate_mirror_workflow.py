@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 ##
-## @Miou-zora PROJECT, 2023
-## mirror-generator
+## @Miou-zora Project, Mirror-Generator, 2023
+## generate_mirror_workflow.py
 ## File description:
-## generate_mirror_workflow file for mirror-generator project (github.com/PseudoPROJECT/mirror-generator)
+## Add CI/CD in mirror of `repo_name`.
 ##
 
 import subprocess

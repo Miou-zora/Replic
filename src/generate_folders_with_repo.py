@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 ##
-## @Miou-zora PROJECT, 2023
-## mirror-generator
+## @Miou-zora Project, Mirror-Generator, 2023
+## generate_folders_with_repo.py
 ## File description:
-## generate_folders_with_repo.py - generate folders with repo and mirror repo
+## Generate folders with repo and mirror repo in.
 ##
 
 import subprocess

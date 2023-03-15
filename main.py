@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 ##
-## @Miou-zora PROJECT, 2023
-## mirror-generator
-## File description:
+## @Miou-zora Project, Mirror-Generator, 2023
 ## main.py
+## File description:
+## Main file for mirror generator.
+## Generate mirror, create folder for project and clone Epitech repository and Mirror repository.
 ##
 
 from github import Github

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 ##
-## @Miou-zora PROJECT, 2023
-## mirror-generator
+## @Miou-zora Project, Mirror-Generator, 2023
+## push_mirror.py
 ## File description:
-## why do you look at this aweful code ...
+## Push to mirror_name with "CI/CD push" commit name.
 ##
 
 import subprocess
