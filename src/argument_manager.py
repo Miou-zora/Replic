@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 ##
-## @VyOkPROJECT, 2023
-## mirror-generator
+## @Miou-zora Project, Mirror-Generator, 2023
+## argument_manager.py
 ## File description:
-## argument manager it's parser for arguments and return it to main
+## Parse argument depending on flags like `-f`.
 ##
 
 import argparse

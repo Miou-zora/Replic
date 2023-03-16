@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 ##
-## @Miou-zora PROJECT, 2023
-## mirror-generator
+## @Miou-zora Project, Mirror-Generator, 2023
+## generate_mirror.py
 ## File description:
-## why do you look at this aweful code ...
+## Create the mirror of `repo_name` of `orga_name` where `orga_name` is epitech organization and `repo_name` the name of the repository in organization.
+## The mirror is named [repo_name]-mirror.
 ##
 
 from github import Github, GithubException
