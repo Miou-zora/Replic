@@ -35,9 +35,49 @@ class Testargument_manager(TestCase):
                 param_expected[value] = self.all_parameters[value]
         self.assertEqual(Namespace(**param_expected), param_result)
     
-    def test_flag_mirror_name(self):
+    def test_one_long_flag_mirror_name(self):
         param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "--mirror-name", "mirrorNameTest"])
         param_expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
+        for value in self.all_parameters:
+            if value not in param_expected:
+                param_expected[value] = self.all_parameters[value]
+        self.assertEqual(Namespace(**param_expected), param_result)
+        
+    def test_one_short_flag_mirror_name(self):
+        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-m", "mirrorNameTest"])
+        param_expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
+        for value in self.all_parameters:
+            if value not in param_expected:
+                param_expected[value] = self.all_parameters[value]
+        self.assertEqual(Namespace(**param_expected), param_result)
+        
+    def test_multiple_flag_mirror_name(self):
+        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-m", "mirrorNameTest0", "-m", "mirrorNameTest1"])
+        param_expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest1"]}
+        for value in self.all_parameters:
+            if value not in param_expected:
+                param_expected[value] = self.all_parameters[value]
+        self.assertEqual(Namespace(**param_expected), param_result)
+        
+    def test_one_long_flag_friend(self):
+        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "--friend", "friendTest"])
+        param_expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
+        for value in self.all_parameters:
+            if value not in param_expected:
+                param_expected[value] = self.all_parameters[value]
+        self.assertEqual(Namespace(**param_expected), param_result)
+    
+    def test_one_short_flag_friend(self):
+        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-f", "friendTest"])
+        param_expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
+        for value in self.all_parameters:
+            if value not in param_expected:
+                param_expected[value] = self.all_parameters[value]
+        self.assertEqual(Namespace(**param_expected), param_result)
+    
+    def test_multiple_flag_friend(self):
+        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-f", "friendTest0", "-f", "friendTest1"])
+        param_expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest0", "friendTest1"]}
         for value in self.all_parameters:
             if value not in param_expected:
                 param_expected[value] = self.all_parameters[value]
