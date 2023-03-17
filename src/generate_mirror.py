@@ -11,7 +11,7 @@ from github import Github, GithubException
 from sys import *
 import os
 
-def generate_mirror(orga_name: str, repo_name: str, github: Github):
+def generate_mirror(orga_name: str, repo_name: str, github: Github, mirror_name: str):
     try:
         orga = github.get_organization(orga_name)
     except GithubException as err:
@@ -21,7 +21,6 @@ def generate_mirror(orga_name: str, repo_name: str, github: Github):
     except GithubException as err:
         raise Exception("Unable to find repository")
     user = github.get_user()
-    mirror_name = repo_name + "-mirror"
     try:
         user.get_repo(mirror_name)
         raise Exception("Mirror already exists")
