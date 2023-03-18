@@ -23,62 +23,66 @@ class Testargument_manager(TestCase):
             args = argument_manager.argumentManager()
         return args
 
+    def compare_input_expected(self, stdin_args: list[str], expected: dict):
+        param_result: Namespace = self.get_result_parsing(stdin_args)
+        param_expected: dict = expected
+        for value in self.all_parameters:
+            if value not in param_expected:
+                param_expected[value] = self.all_parameters[value]
+        namespace_param_expected: Namespace = Namespace(**param_expected)
+        self.assertEqual(namespace_param_expected, param_result)
+
+    def test_help_flag(self):
+        with self.assertRaises(SystemExit) as se:
+            self.get_result_parsing(["main.py", "-h"])
+        sys.argv = []
+
     def test_no_flag_no_ssh(self):
         with self.assertRaises(SystemExit) as se:
             self.get_result_parsing(["main.py"])
+        sys.argv = []
             
     def test_no_flag_with_ssh(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh"])
-        param_expected: dict = {"sshKey": ["ssh"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
+        stdin_args: list[str] = ["main.py", "ssh"]
+        expected: dict = {"sshKey": ["ssh"]}
+        self.compare_input_expected(stdin_args, expected)
     
     def test_one_long_flag_mirror_name(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "--mirror-name", "mirrorNameTest"])
-        param_expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
+        stdin_args: list[str] = ["main.py", "ssh", "--mirror-name", "mirrorNameTest"]
+        expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
+        self.compare_input_expected(stdin_args, expected)
         
     def test_one_short_flag_mirror_name(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-m", "mirrorNameTest"])
-        param_expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
+        stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest"]
+        expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
+        self.compare_input_expected(stdin_args, expected)
         
     def test_multiple_flag_mirror_name(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-m", "mirrorNameTest0", "-m", "mirrorNameTest1"])
-        param_expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest1"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
-        
+        stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest0", "-m", "mirrorNameTest1"]
+        expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest1"]}
+        self.compare_input_expected(stdin_args, expected)
+    
+    def test_multiple_same_flag_mirror_name(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest", "-m", "mirrorNameTest"]
+        expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
+        self.compare_input_expected(stdin_args, expected)
+    
     def test_one_long_flag_friend(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "--friend", "friendTest"])
-        param_expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
+        stdin_args: list[str] = ["main.py", "ssh", "--friend", "friendTest"]
+        expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
+        self.compare_input_expected(stdin_args, expected)
     
     def test_one_short_flag_friend(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-f", "friendTest"])
-        param_expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
+        stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest"]
+        expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
+        self.compare_input_expected(stdin_args, expected)
     
     def test_multiple_flag_friend(self):
-        param_result: Namespace = self.get_result_parsing(["main.py", "ssh", "-f", "friendTest0", "-f", "friendTest1"])
-        param_expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest0", "friendTest1"]}
-        for value in self.all_parameters:
-            if value not in param_expected:
-                param_expected[value] = self.all_parameters[value]
-        self.assertEqual(Namespace(**param_expected), param_result)
+        stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest0", "-f", "friendTest1"]
+        expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest0", "friendTest1"]}
+        self.compare_input_expected(stdin_args, expected)
+    
+    def test_multiple_same_flag_friend(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest", "-f", "friendTest"]
+        expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
+        self.compare_input_expected(stdin_args, expected)
