@@ -25,9 +25,9 @@
 You can add put some flag to affect the program.
 Exemple:
 ```griffith-better-than-guts
-./main.py [an ssh link] -m mirror_name --friend VyOk -f BigT
+./main.py [an ssh link] -m mirror_name --friend lhay9 -f Queng123
 ```
-This command line will create the mirror with `mirror_name` name and add `VyOk` and `BigT` to mirror repository.
+This command line will create the mirror with `mirror_name` name and add [`lhay`](https://github.com/lhay9) and [`Queng123`](https://github.com/Queng123) user to mirror repository.
 
 There is the exhaustive list of available flags:
 | Flag                                      | Description                          |
