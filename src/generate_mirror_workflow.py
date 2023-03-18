@@ -8,8 +8,7 @@
 
 import subprocess
 
-def generate_mirror_workflow(binary_name: str, repo_ssh: str, repo_name:str):
-    mirror_name = f"{repo_name}-mirror"
+def generate_mirror_workflow(binary_name: str, repo_ssh: str, repo_name:str, mirror_name: str):
     f = open("verif_mirror.yml", "r")
     mirror_file_data = f.read()
     f.close()

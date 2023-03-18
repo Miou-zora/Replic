@@ -14,7 +14,7 @@ TESTS_HTML_FOLDER	=	tests_html
 RM					=	rm -rf
 
 tests_run:
-	@coverage run -m pytest -v
+	@coverage run -m pytest
 	@coverage report --precision=4
 	@coverage html -d $(TESTS_HTML_FOLDER)
 
