@@ -15,7 +15,7 @@ from src import argument_manager
 
 class Testargument_manager(TestCase):
     
-    all_parameters = {"friend": None, "mirror_name": None}
+    all_parameters = {"friend": None, "mirror_name": None, "commit": None}
 
     @staticmethod
     def get_result_parsing(stdin_args: list[str]) -> Namespace:
@@ -85,4 +85,29 @@ class Testargument_manager(TestCase):
     def test_multiple_same_flag_friend(self):
         stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest", "-f", "friendTest"]
         expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_one_long_flag_commit(self):
+        stdin_args: list[str] = ["main.py", "ssh", "--commit", "commitTest"]
+        expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_one_short_flag_commit(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-o", "commitTest"]
+        expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest"]}
+        self.compare_input_expected(stdin_args, expected)
+    
+    def test_multiple_flag_commit(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-o", "commitTest0", "-o", "commitTest1"]
+        expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest1"]}
+        self.compare_input_expected(stdin_args, expected)
+    
+    def test_multiple_same_flag_commit(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-o", "commitTest", "-o", "commitTest"]
+        expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_multiple_flag(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest", "-f", "friendTest", "-o", "commitTest"]
+        expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"], "friend": ["friendTest"], "commit": ["commitTest"]}
         self.compare_input_expected(stdin_args, expected)

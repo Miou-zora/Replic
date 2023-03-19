@@ -25,11 +25,12 @@ def main():
     orga_name = repo_info[0]
     repo_name = ".".join(repo_info[1].split(".")[:-1])
     mirror_name = (args.mirror_name[0] if (args.mirror_name != None) else f"{repo_name}-mirror")
+    commit = (args.commit[0] if (args.commit != None) else "CI/CD push")
     generate_mirror(orga_name, repo_name, github_identifier, mirror_name)
     generate_folders_with_repo(args.sshKey[0], github_identifier.get_user().login, repo_name, mirror_name)
     generate_mirror_workflow(args.sshKey[0].split('-')[-2], args.sshKey[0], repo_name, mirror_name)
     add_collaborators(args.friend, mirror_name, github_identifier)
-    push_mirror(mirror_name, args.sshKey[0].split('-')[-2])
+    push_mirror(mirror_name, args.sshKey[0].split('-')[-2], commit)
 
 if __name__ == '__main__':
     main()
