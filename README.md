@@ -35,3 +35,4 @@ There is the exhaustive list of available flags:
 | -h, --help                                | Show help message and exit           |
 | --friend FRIEND, -f FRIEND                | Can add friend to mirror repository. |
 | --mirror-name MIRROR_NAME, -m MIRROR_NAME | Change the mirror repository name.   |
+| --commit FIRST_COMMIT, -o FIRST_COMMIT    | Change the first commit on repository.|
