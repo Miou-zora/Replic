@@ -1,25 +1,26 @@
-# Description
+## Pull Request template
+Please, go through these steps before you submit a PR.
 
-Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change.
+1. Make sure that your PR is not a duplicate.
+2. If not, then make sure that:
 
-Fixes # (issue)
+    a. You have done your changes in a separate branch. Branches MUST have descriptive names that start with either the `fix/` or `feature/` prefixes. Good examples are: `fix/signin-issue` or `feature/issue-templates`.
 
-## Type of change
+    b. You have a descriptive commit message with a short title (first line).
 
-Please delete options that are not relevant.
+    c. You have only one commit (if not, squash them into one commit).
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] This change requires a documentation update
+    d. `make tests_run` doesn't throw any error. If it does, fix them first and amend your commit (`git commit --amend`).
 
-# Checklist:
+3. **After** these steps, you're ready to open a pull request.
 
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
+    a. Give a descriptive title to your PR.
+
+    b. Describe your changes.
+
+    c. Put `closes #XXXX` in your comment to auto-close the issue that your PR fixes (if such).
+
+IMPORTANT: Please review the [CONTRIBUTING.md](../../CONTRIBUTING.md) file for detailed contributing guidelines.
+
+**PLEASE REMOVE THIS TEMPLATE BEFORE SUBMITTING**
 
