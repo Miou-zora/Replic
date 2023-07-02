@@ -13,6 +13,9 @@ TESTS_HTML_FOLDER	=	tests_html
 
 RM					=	rm -rf
 
+install:
+	pip install -r requirements.txt
+
 tests_run:
 	@coverage run -m pytest
 	@coverage report --precision=4
