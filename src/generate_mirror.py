@@ -15,7 +15,7 @@ def generate_mirror(orga_name: str, repo_name: str, github: Github, mirror_name:
     try:
         orga = github.get_organization(orga_name)
     except GithubException as err:
-        raise Exception("Unable to find organization")
+        raise Exception("Unable to find organization" + str(err))
     try:
         repo = orga.get_repo(repo_name)
     except GithubException as err:
@@ -25,15 +25,18 @@ def generate_mirror(orga_name: str, repo_name: str, github: Github, mirror_name:
         user.get_repo(mirror_name)
         raise Exception("Mirror already exists")
     except:
-        user.create_repo(
-            mirror_name,
-            allow_rebase_merge=True,
-            auto_init=False,
-            has_issues=True,
-            has_projects=False,
-            has_wiki=False,
-            private=True,
-        )
+        try:
+            user.create_repo(
+                mirror_name,
+                allow_rebase_merge=True,
+                auto_init=False,
+                has_issues=True,
+                has_projects=False,
+                has_wiki=False,
+                private=True,
+            )
+        except GithubException as err:
+            raise Exception(f"Unable to create mirror repository: {err.data['errors'][0]['message']}")
     repo = user.get_repo(mirror_name)
     f = open(os.path.expanduser('~') + "/.ssh/id_rsa", "r")
     private_key = f.read()
