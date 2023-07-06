@@ -16,21 +16,45 @@ from src.push_mirror import *
 from src.generate_mirror_workflow import *
 from src.generate_folders_with_repo import *
 from src.generate_mirror import *
+from src.SshKeyRepositoryParser.SshKeyRepositoryParserEpitech import SshKeyRepositoryParserEpitech
+
+DEFAULT_COMMIT: str = "CI/CD push"
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def main():
     args = argumentManager()
-    repo_info = args.sshKey[0].split(":")[1].split("/")
     json_file = json.load(open("data.json"))
+    if (json_file["token"] == "[your token]"):
+        print(f"{bcolors.FAIL}You need to change the token in data.json{bcolors.ENDC}")
+        exit(84)
     github_identifier: Github = Github(json_file["token"])
-    orga_name = repo_info[0]
-    repo_name = ".".join(repo_info[1].split(".")[:-1])
-    mirror_name = (args.mirror_name[0] if (args.mirror_name != None) else f"{repo_name}-mirror")
-    commit = (args.commit[0] if (args.commit != None) else "CI/CD push")
-    generate_mirror(orga_name, repo_name, github_identifier, mirror_name)
-    generate_folders_with_repo(args.sshKey[0], github_identifier.get_user().login, repo_name, mirror_name)
-    generate_mirror_workflow(args.sshKey[0].split('-')[-2], args.sshKey[0], repo_name, mirror_name)
-    add_collaborators(args.friend, mirror_name, github_identifier)
-    push_mirror(mirror_name, args.sshKey[0].split('-')[-2], commit)
+    sshParser: SshKeyRepositoryParserEpitech = SshKeyRepositoryParserEpitech(args.sshKey[0])
+    try:
+        sshParser.parse()
+    except Exception as e:
+        print(f"{bcolors.FAIL}{e}{bcolors.ENDC}")
+        exit(84)
+    mirror_name = (args.mirror_name[0] if (args.mirror_name != None) else f"{sshParser.projectName}-mirror")
+    commit = (args.commit[0] if (args.commit != None) else DEFAULT_COMMIT)
+    try:
+        generate_mirror(sshParser.organizationName, sshParser.repositoryName, github_identifier, mirror_name)
+        generate_folders_with_repo(sshParser.sshKey, sshParser.projectName, github_identifier.get_user().login, sshParser.repositoryName, mirror_name)
+        generate_mirror_workflow(sshParser.projectName, sshParser.repositoryName, mirror_name)
+        add_collaborators(args.friend, mirror_name, github_identifier)
+        push_mirror(mirror_name, sshParser.projectName, commit)
+    except Exception as e:
+        print(f"{bcolors.FAIL}{e}{bcolors.ENDC}")
+        exit(84)
 
 if __name__ == '__main__':
     main()
