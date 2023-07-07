@@ -17,9 +17,9 @@ install:
 	pip install -r requirements.txt
 
 tests_run:
-	@coverage run -m pytest
-	@coverage report --precision=4
-	@coverage html -d $(TESTS_HTML_FOLDER)
+	@python3 -m coverage run -m pytest
+	@python3 -m coverage report --precision=4
+	@python3 -m coverage html -d $(TESTS_HTML_FOLDER)
 
 tclean:
 	$(RM) .coverage
@@ -30,4 +30,6 @@ clean:
 	find . -type d -name '__pycache__' -delete
 	$(RM) $(TESTS_HTML_FOLDER)/*
 
-fclean: clean
+fclean: clean tclean
+
+.PHONY: install tests_run tclean clean fclean
