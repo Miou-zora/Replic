@@ -1,0 +1,19 @@
+# Created by @Miou-zora (please keep it ;) )
+
+name: mirror
+
+jobs:
+  launch-test:
+    name: Launch test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: |
+          make install
+      
+      - name: Launch tests
+        run:
+          make tests_run
