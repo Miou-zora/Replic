@@ -2,6 +2,8 @@
 
 name: mirror
 
+on: [push]
+
 jobs:
   launch-test:
     name: Launch test
