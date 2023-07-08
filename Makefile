@@ -13,8 +13,28 @@ TESTS_HTML_FOLDER	=	tests_html
 
 RM					=	rm -rf
 
+COLOR_GREEN			=	"\033[1;32m"
+
+COLOR_RED			=	"\033[1;31m"
+
+DEFAULT				=	"\033[0m"
+
 install:
 	pip install -r requirements.txt
+
+coding_style:
+	@printf "Coding style checking...\n"
+	@if python3 -m pycodestyle --statistics --exclude=test; then \
+		printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}; \
+	else \
+		printf ${COLOR_RED}"[KO]\n"${DEFAULT}; \
+		exit 1; \
+	fi
+
+coding_style_details:
+	@printf "Coding style checking...\n"
+	@python3 -m pycodestyle --show-source --show-pep8 --exclude=test
+	@printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}
 
 tests_run:
 	@python3 -m coverage run -m pytest
