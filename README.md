@@ -1,4 +1,4 @@
-# Mirror Generator
+# Replic
 ## How does it works ?
 1. Clone this repository.
 2. Create a github developper token with all permissions (I don't know which one you must take) and authorize Epitech.
