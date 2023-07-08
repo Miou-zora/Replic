@@ -16,6 +16,14 @@ RM					=	rm -rf
 install:
 	pip install -r requirements.txt
 
+coding_style:
+	@echo "Coding style checking..."
+	@python3 -m pycodestyle --statistics
+
+coding_style_details:
+	@echo "Coding style checking..."
+	@python3 -m pycodestyle --show-source --show-pep8
+
 tests_run:
 	@python3 -m coverage run -m pytest
 	@python3 -m coverage report --precision=4
