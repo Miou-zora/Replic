@@ -8,7 +8,8 @@ class User:
         self.user = user
         
     def get_repo(self, repo_name: str): # TODO: add return value type
-        return self.user.get_repo(repo_name)
+        from .Repository import Repository
+        return Repository(self.user.get_repo(repo_name))
     
     def create_repo(self,
         name: str,
