@@ -7,7 +7,6 @@
 ## Generate mirror, create folder for project and clone Epitech repository and Mirror repository.
 ##
 
-from github import Github
 from sys import argv
 import json
 from src.add_to_collaborators import *
@@ -16,6 +15,7 @@ from src.push_mirror import *
 from src.generate_mirror_workflow import *
 from src.generate_folders_with_repo import *
 from src.generate_mirror import *
+from src.Github.Github import Github as Github
 from src.SshKeyRepositoryParser.SshKeyRepositoryParserEpitech import SshKeyRepositoryParserEpitech
 
 DEFAULT_COMMIT: str = "CI/CD push"
@@ -37,7 +37,7 @@ def main():
     if (json_file["token"] == "[your token]"):
         print(f"{bcolors.FAIL}You need to change the token in data.json{bcolors.ENDC}")
         exit(84)
-    github_identifier: Github = Github(json_file["token"])
+    gh: Github = Github(json_file["token"])
     sshParser: SshKeyRepositoryParserEpitech = SshKeyRepositoryParserEpitech(args.sshKey[0])
     try:
         sshParser.parse()
@@ -46,15 +46,11 @@ def main():
         exit(84)
     mirror_name = (args.mirror_name[0] if (args.mirror_name != None) else f"{sshParser.projectName}-mirror")
     commit = (args.commit[0] if (args.commit != None) else DEFAULT_COMMIT)
-    try:
-        generate_mirror(sshParser.organizationName, sshParser.repositoryName, github_identifier, mirror_name)
-        generate_folders_with_repo(sshParser.sshKey, sshParser.projectName, github_identifier.get_user().login, sshParser.repositoryName, mirror_name)
-        generate_mirror_workflow(sshParser.projectName, sshParser.repositoryName, mirror_name)
-        add_collaborators(args.friend, mirror_name, github_identifier)
-        push_mirror(mirror_name, sshParser.projectName, commit)
-    except Exception as e:
-        print(f"{bcolors.FAIL}{e}{bcolors.ENDC}")
-        exit(84)
+    generate_mirror(sshParser.organizationName, sshParser.repositoryName, gh, mirror_name)
+    generate_folders_with_repo(sshParser.sshKey, sshParser.projectName, gh.get_user().get_login(), sshParser.repositoryName, mirror_name)
+    generate_mirror_workflow(sshParser.projectName, sshParser.repositoryName, mirror_name)
+    add_collaborators(args.friend, mirror_name, gh)
+    push_mirror(mirror_name, sshParser.projectName, commit)
 
 if __name__ == '__main__':
     main()
