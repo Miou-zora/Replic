@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock, call
 
-from github import GithubException
 from src import add_to_collaborators
 
 class Testadd_collaborators(unittest.TestCase):
@@ -21,7 +20,7 @@ class Testadd_collaborators(unittest.TestCase):
             elif name == "thereIsNoName":
                 return user_mock
             else:
-                raise GithubException(84, "Unvalid Username", None)
+                raise Exception(84, "Unvalid Username", None)
         
         github.get_user.side_effect = side_effect
         
@@ -49,7 +48,7 @@ class Testadd_collaborators(unittest.TestCase):
             elif name == "thereIsNoName":
                 return user_mock
             else:
-                raise GithubException(84, "Unvalid Username", None)
+                raise Exception(84, "Unvalid Username", None)
         
         github.get_user.side_effect = side_effect
         
@@ -78,7 +77,7 @@ class Testadd_collaborators(unittest.TestCase):
             elif name == "thereIsNoName":
                 return user_mock
             else:
-                raise GithubException(84, "Unvalid Username", None)
+                raise Exception(84, "Unvalid Username", None)
         
         github.get_user.side_effect = side_effect
         
@@ -107,7 +106,7 @@ class Testadd_collaborators(unittest.TestCase):
             elif name == "thereIsNoName":
                 return user_mock
             else:
-                raise GithubException(84, "Unvalid Username", None)
+                raise Exception(84, "Unvalid Username", None)
         
         github.get_user.side_effect = side_effect
         
