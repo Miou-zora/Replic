@@ -7,7 +7,7 @@
 ## Generate mirror, create folder for project and clone Epitech repository and Mirror repository.
 ##
 
-from github import Github
+import Github
 from sys import argv
 import json
 from src.add_to_collaborators import *
@@ -16,6 +16,7 @@ from src.push_mirror import *
 from src.generate_mirror_workflow import *
 from src.generate_folders_with_repo import *
 from src.generate_mirror import *
+import src.Github.Github
 from src.SshKeyRepositoryParser.SshKeyRepositoryParserEpitech import SshKeyRepositoryParserEpitech
 
 DEFAULT_COMMIT: str = "CI/CD push"
@@ -37,7 +38,8 @@ def main():
     if (json_file["token"] == "[your token]"):
         print(f"{bcolors.FAIL}You need to change the token in data.json{bcolors.ENDC}")
         exit(84)
-    github_identifier: Github = Github(json_file["token"])
+    github_identifier: Github.Github = Github(json_file["token"])
+    gh: Github = Github(json_file["token"])
     sshParser: SshKeyRepositoryParserEpitech = SshKeyRepositoryParserEpitech(args.sshKey[0])
     try:
         sshParser.parse()
