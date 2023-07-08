@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-##
-## @Miou-zora Project, Mirror-Generator, 2023
-## add_to_collaborators.py
-## File description:
-## Add collaborators to the mirror repository on Github.
-##
+# @Miou-zora Project, Mirror-Generator, 2023
 
 from .Github import Github, User, Repository
 
-def add_collaborators(github_usernames: list[str], repository_name: str, github: Github) -> None:
+
+def add_collaborators(github_usernames: list[str],
+                      repository_name: str,
+                      github: Github) -> None:
     """Add all of `github_usernames` in repo named `repo_name`
 
     Args:
