@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 ## @Miou-zora Project, Mirror-Generator, 2023
 
-import Github as gh
+import github as gh
+from .User import User
 
 class Github:
     def __init__(self, token: str) -> None:
         self.token = token
         self.github: gh.Github = gh.Github(token)
         
-    def get_user(self, user_name: str): # TODO: add return value type
-        return self.github.get_user(user_name)
+    def get_user(self, user_name: str | None = None): # TODO: add return value type
+        if user_name == None:
+            return User(self.github.get_user())
+        return User(self.github.get_user(user_name))
     
     def get_organization(self, organization_name: str): # TODO: add return value type
-        pass
+        return self.github.get_organization(organization_name)
