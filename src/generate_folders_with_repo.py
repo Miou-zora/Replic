@@ -12,13 +12,7 @@ def generate_folders_with_repo(ssh_key: str,
                                mirror_name: str):
     mirror_ssh_link = f"git@github.com:{user_name}/{mirror_name}.git"
     BashUtils.mkdir(project_name)
-    actions = [(["git", "clone", ssh_key],
-                "Can't clone repository: " + ssh_key),
-               (["mv", repo_name, project_name],
-                "Can't move folder: " + repo_name),
-               (["git", "clone", mirror_ssh_link],
-                "Can't clone repository: " + mirror_ssh_link)]
-    for action in actions:
-        if subprocess.run(action[0]).returncode == 1:
-            raise Exception(action[1])
+    BashUtils.Git.clone(ssh_key)
+    BashUtils.mv(repo_name, project_name)
+    BashUtils.Git.clone(mirror_ssh_link)
     BashUtils.mv(mirror_name, project_name)
