@@ -29,6 +29,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 def check_all(github: Github,
               sshParser: SshKeyRepositoryParserEpitech,
               mirror_name: str):
@@ -65,6 +66,7 @@ def check_all(github: Github,
         print(f"{bcolors.FAIL}ERROR: Unable to create directory: "
               f"{sshParser.projectName} directory already exist{bcolors.ENDC}")
         exit(84)
+
 
 def main():
     args = argumentManager()

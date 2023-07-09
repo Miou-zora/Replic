@@ -18,7 +18,8 @@ class BashUtils:
     class Git:
         @staticmethod
         def add(where: str = ".", what: list[str] = ["."]):
-            if subprocess.run(["git", "-C", where, "add", *what]).returncode == 1:
+            result = subprocess.run(["git", "-C", where, "add", *what])
+            if result.returncode == 1:
                 raise Exception("No add can be done")
 
         @staticmethod
@@ -28,7 +29,9 @@ class BashUtils:
 
         @staticmethod
         def commit(message: str, where: str = "."):
-            if subprocess.run(["git", "-C", where, "commit", "-m", message]).returncode == 1:
+            result = subprocess.run(["git",
+                                     "-C", where, "commit", "-m", message])
+            if result.returncode == 1:
                 raise Exception("No commit can be done")
 
         @staticmethod
