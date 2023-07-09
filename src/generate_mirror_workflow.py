@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # @Miou-zora Project, Mirror-Generator, 2023
 
-import subprocess
+from .Utils.BashUtils import BashUtils
 
 
 def generate_mirror_workflow(project_name: str,
@@ -14,16 +14,10 @@ def generate_mirror_workflow(project_name: str,
                                                 repo_ssh)
     mirror_file_data = mirror_file_data.replace("EXECUTABLE_MIRROR_GENERATOR",
                                                 project_name)
-    actions = [(["mkdir", f"{project_name}/{mirror_name}/.github"],
-                "Folder already exist: "
-                + f"{project_name}/{mirror_name}/.github"),
-               (["mkdir", f"{project_name}/{mirror_name}/.github/workflows"],
-                "Folder already exist: "
-                + f"{project_name}/{mirror_name}/.github/workflows")]
-    for action in actions:
-        if subprocess.run(action[0]).returncode == 1:
-            raise Exception(action[1])
-    mirror_file = open(f"{project_name}/{mirror_name}/\
-        .github/workflows/verif_mirror.yml", "w")
+    mirror_folder = f"{project_name}/{mirror_name}"
+    BashUtils.mkdir(f"{mirror_folder}/.github")
+    BashUtils.mkdir(f"{mirror_folder}/.github/workflows")
+    mirror_file = open(f"{mirror_folder}/.github/workflows/verif_mirror.yml",
+                       "w")
     mirror_file.write(mirror_file_data)
     mirror_file.close()

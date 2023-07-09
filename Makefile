@@ -40,6 +40,7 @@ tests_run:
 	@python3 -m coverage run -m pytest
 	@python3 -m coverage report --precision=4
 	@python3 -m coverage html -d $(TESTS_HTML_FOLDER)
+	python3 -m unittest discover -s tests
 
 tclean:
 	$(RM) .coverage
