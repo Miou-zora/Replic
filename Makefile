@@ -37,10 +37,11 @@ coding_style_details:
 	@printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}
 
 tests_run:
-	@python3 -m coverage run -m pytest
-	@python3 -m coverage report --precision=4
+	@printf "Unittest running...\n"
+	@python3 -m coverage run -m unittest discover -v
+	@python3 -m coverage report --precision=4 --omit=tests/*
 	@python3 -m coverage html -d $(TESTS_HTML_FOLDER)
-	python3 -m unittest discover -s tests
+	@printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}
 
 tclean:
 	$(RM) .coverage
