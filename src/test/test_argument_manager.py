@@ -10,11 +10,11 @@ from unittest import TestCase
 from unittest.mock import patch
 import sys
 from argparse import Namespace
-
+import io
+from contextlib import redirect_stdout, redirect_stderr
 from src import argument_manager
 
 class Testargument_manager(TestCase):
-    
     all_parameters = {"friend": None, "mirror_name": None, "commit": None}
 
     @staticmethod
@@ -34,54 +34,56 @@ class Testargument_manager(TestCase):
 
     def test_help_flag(self):
         with self.assertRaises(SystemExit) as se:
-            self.get_result_parsing(["main.py", "-h"])
+            with io.StringIO() as buf, redirect_stdout(buf):
+                self.get_result_parsing(["main.py", "-h"])
         sys.argv = []
 
     def test_no_flag_no_ssh(self):
         with self.assertRaises(SystemExit) as se:
-            self.get_result_parsing(["main.py"])
+            with io.StringIO() as buf, redirect_stderr(buf):
+                self.get_result_parsing(["main.py"])
         sys.argv = []
-            
+
     def test_no_flag_with_ssh(self):
         stdin_args: list[str] = ["main.py", "ssh"]
         expected: dict = {"sshKey": ["ssh"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_one_long_flag_mirror_name(self):
         stdin_args: list[str] = ["main.py", "ssh", "--mirror-name", "mirrorNameTest"]
         expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
         self.compare_input_expected(stdin_args, expected)
-        
+
     def test_one_short_flag_mirror_name(self):
         stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest"]
         expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
         self.compare_input_expected(stdin_args, expected)
-        
+
     def test_multiple_flag_mirror_name(self):
         stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest0", "-m", "mirrorNameTest1"]
         expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest1"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_multiple_same_flag_mirror_name(self):
         stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest", "-m", "mirrorNameTest"]
         expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_one_long_flag_friend(self):
         stdin_args: list[str] = ["main.py", "ssh", "--friend", "friendTest"]
         expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_one_short_flag_friend(self):
         stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest"]
         expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_multiple_flag_friend(self):
         stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest0", "-f", "friendTest1"]
         expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest0", "friendTest1"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_multiple_same_flag_friend(self):
         stdin_args: list[str] = ["main.py", "ssh", "-f", "friendTest", "-f", "friendTest"]
         expected: dict = {"sshKey": ["ssh"], "friend": ["friendTest"]}
@@ -96,12 +98,12 @@ class Testargument_manager(TestCase):
         stdin_args: list[str] = ["main.py", "ssh", "-o", "commitTest"]
         expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_multiple_flag_commit(self):
         stdin_args: list[str] = ["main.py", "ssh", "-o", "commitTest0", "-o", "commitTest1"]
         expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest1"]}
         self.compare_input_expected(stdin_args, expected)
-    
+
     def test_multiple_same_flag_commit(self):
         stdin_args: list[str] = ["main.py", "ssh", "-o", "commitTest", "-o", "commitTest"]
         expected: dict = {"sshKey": ["ssh"], "commit": ["commitTest"]}

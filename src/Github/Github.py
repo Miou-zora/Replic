@@ -13,7 +13,7 @@ class Github:
     # TODO: add return value type
     def get_user(self, user_name: str | None = None):
         from .User import User
-        if user_name is not None:
+        if user_name is None:
             return User(self.github.get_user())
         return User(self.github.get_user(user_name))
 
