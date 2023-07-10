@@ -6,10 +6,7 @@ from sys import *
 import os
 
 
-def generate_mirror(orga_name: str,
-                    repo_name: str,
-                    github: Github,
-                    mirror_name: str):
+def generate_mirror(orga_name: str, repo_name: str, github: Github, mirror_name: str):
     try:
         orga = github.get_organization(orga_name)
     except Exception as err:
@@ -34,8 +31,7 @@ def generate_mirror(orga_name: str,
                 private=True,
             )
         except Exception as err:
-            raise Exception(f"ERROR: generate_mirror: Unable to \
-                create mirror repository: {err.data['errors'][0]['message']}")
+            raise Exception(f"ERROR: generate_mirror: Unable to create mirror repository: {err.data['errors'][0]['message']}")
         repo = user.get_repo(mirror_name)
         f = open(os.path.expanduser('~') + "/.ssh/id_rsa", "r")
         private_key = f.read()

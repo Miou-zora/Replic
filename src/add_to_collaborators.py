@@ -4,9 +4,7 @@
 from .Github import Github, User, Repository
 
 
-def add_collaborators(github_usernames: list[str],
-                      repository_name: str,
-                      github: Github) -> None:
+def add_collaborators(github_usernames: list[str], repository_name: str, github: Github) -> None:
     """Add all of `github_usernames` in repo named `repo_name`
 
     Args:
