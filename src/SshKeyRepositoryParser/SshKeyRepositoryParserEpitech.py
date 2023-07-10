@@ -14,18 +14,15 @@ class SshKeyRepositoryParserEpitech(ASshKeyRepositoryParser):
         try:
             self.organizationName = self.sshKey.split(":")[1].split("/")[0]
         except Exception:
-            raise Exception("SshKeyRepositoryParserEpitech: Invalid ssh key: \
-                organization name not found.")
+            raise Exception("SshKeyRepositoryParserEpitech: Invalid ssh key: organization name not found.")
         try:
             self.repositoryName = ".".join(self.sshKey
                                            .split(":")[1]
                                            .split("/")[1]
                                            .split(".")[:-1])
         except Exception:
-            raise Exception("SshKeyRepositoryParserEpitech: Invalid ssh key: \
-                repository name not found.")
+            raise Exception("SshKeyRepositoryParserEpitech: Invalid ssh key: repository name not found.")
         try:
             self.projectName = self.repositoryName.split("-")[-2]
         except Exception:
-            raise Exception("SshKeyRepositoryParserEpitech: Invalid ssh key: \
-                project name not found.")
+            raise Exception("SshKeyRepositoryParserEpitech: Invalid ssh key: project name not found.")

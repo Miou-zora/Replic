@@ -10,8 +10,7 @@ from src.generate_mirror_workflow import *
 from src.generate_folders_with_repo import *
 from src.generate_mirror import *
 from src.Github.Github import Github as Github
-from src.SshKeyRepositoryParser.SshKeyRepositoryParserEpitech import \
-    SshKeyRepositoryParserEpitech
+from src.SshKeyRepositoryParser.SshKeyRepositoryParserEpitech import SshKeyRepositoryParserEpitech
 import os
 from github import GithubException
 
@@ -30,41 +29,30 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-def check_all(github: Github,
-              sshParser: SshKeyRepositoryParserEpitech,
-              mirror_name: str):
+def check_all(github: Github, sshParser: SshKeyRepositoryParserEpitech, mirror_name: str):
     try:
         organization = github.get_organization(sshParser.organizationName)
     except GithubException as err:
-        print(f"{bcolors.FAIL}"
-              "ERROR: Unable to find organization "
-              f"\"{sshParser.organizationName}\": "
+        print(f"{bcolors.FAIL}ERROR: Unable to find organization \"{sshParser.organizationName}\": "
               f"{str(err.args[1]['message'])}{bcolors.ENDC}")
         if err.args[1]['message'] == "Bad credentials":
-            print(f"{bcolors.HEADER}"
-                  "You maybe need to change the token in data.json"
-                  f"{bcolors.ENDC}")
+            print(f"{bcolors.HEADER}You maybe need to change the token in data.json{bcolors.ENDC}")
         exit(84)
     try:
         repository = organization.get_repo(sshParser.repositoryName)
     except Exception as err:
-        print(f"{bcolors.FAIL}"
-              "ERROR: Unable to find repository "
-              f"\"{sshParser.repositoryName}\": "
+        print(f"{bcolors.FAIL}ERROR: Unable to find repository \"{sshParser.repositoryName}\": "
               f"{str(err.args[1]['message'])}{bcolors.ENDC}")
         exit(84)
     user = github.get_user()
     try:
         user.get_repo(mirror_name)
-        print(f"{bcolors.FAIL}"
-              "ERROR: Unable to create repository: "
-              f"{mirror_name} already exist{bcolors.ENDC}")
+        print(f"{bcolors.FAIL}ERROR: Unable to create repository: {mirror_name} already exist{bcolors.ENDC}")
         exit(84)
     except Exception as err:
         pass
     if os.path.isdir(sshParser.projectName):
-        print(f"{bcolors.FAIL}ERROR: Unable to create directory: "
-              f"{sshParser.projectName} directory already exist{bcolors.ENDC}")
+        print(f"{bcolors.FAIL}ERROR: Unable to create directory: {sshParser.projectName} directory already exist{bcolors.ENDC}")
         exit(84)
 
 
@@ -72,8 +60,7 @@ def main():
     args = argumentManager()
     json_file = json.load(open("data.json"))
     if (json_file["token"] == "[your token]"):
-        print(f"{bcolors.FAIL}You need to change the \
-                token in data.json{bcolors.ENDC}")
+        print(f"{bcolors.FAIL}You need to change the token in data.json{bcolors.ENDC}")
         exit(84)
     github = Github(json_file["token"])
     sshParser = SshKeyRepositoryParserEpitech(args.sshKey[0])
@@ -89,14 +76,10 @@ def main():
     if args.commit is not None:
         commit = args.commit[0]
     check_all(github, sshParser, mirror_name)
-    generate_mirror(sshParser.organizationName,
-                    sshParser.repositoryName, github, mirror_name)
-    generate_folders_with_repo(sshParser.sshKey, sshParser.projectName,
-                               github.get_user().get_login(),
-                               sshParser.repositoryName,
+    generate_mirror(sshParser.organizationName, sshParser.repositoryName, github, mirror_name)
+    generate_folders_with_repo(sshParser.sshKey, sshParser.projectName, github.get_user().get_login(), sshParser.repositoryName,
                                mirror_name)
-    generate_mirror_workflow(sshParser.projectName,
-                             sshParser.repositoryName, mirror_name)
+    generate_mirror_workflow(sshParser.projectName, sshParser.repositoryName, mirror_name)
     add_collaborators(args.friend, mirror_name, github)
     push_mirror(mirror_name, sshParser.projectName, commit)
 

@@ -24,7 +24,7 @@ install:
 
 coding_style:
 	@printf "Coding style checking...\n"
-	@if python3 -m pycodestyle --statistics --exclude=test; then \
+	@if python3 -m pycodestyle --statistics --exclude=test --max-line-length=130; then \
 		printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}; \
 	else \
 		printf ${COLOR_RED}"[KO]\n"${DEFAULT}; \
@@ -33,8 +33,12 @@ coding_style:
 
 coding_style_details:
 	@printf "Coding style checking...\n"
-	@python3 -m pycodestyle --show-source --show-pep8 --exclude=test
-	@printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}
+	@if python3 -m pycodestyle --show-source --show-pep8 --exclude=test --max-line-length=130; then \
+		printf ${COLOR_GREEN}"[OK]\n"${DEFAULT}; \
+	else \
+		printf ${COLOR_RED}"[KO]\n"${DEFAULT}; \
+		exit 1; \
+	fi
 
 tests_run:
 	@printf "Unittest running...\n"

@@ -5,9 +5,7 @@ import github as gh
 
 
 class User:
-    def __init__(self,
-                 user: gh.NamedUser.NamedUser | gh.NamedUser.NamedUser = None
-                 ) -> None:
+    def __init__(self, user: gh.NamedUser.NamedUser | gh.NamedUser.NamedUser = None) -> None:
         self.user = user
 
     # TODO: add return value type
@@ -32,11 +30,9 @@ class User:
                     allow_rebase_merge: bool = gh.GithubObject.NotSet,
                     delete_branch_on_merge: bool = gh.GithubObject.NotSet):
         if self.user is None:
-            raise Exception("User: Unable to create repo because \
-                user is None")
+            raise Exception("User: Unable to create repo because user is None")
         if name is None:
-            raise Exception("User: Unable to create repo because \
-                repository name is None")
+            raise Exception("User: Unable to create repo because repository name is None")
         self.user.create_repo(
             name,
             description=description,
