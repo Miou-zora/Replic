@@ -33,7 +33,7 @@ class User:
             raise Exception("User: Unable to create repo because user is None")
         if name is None:
             raise Exception("User: Unable to create repo because repository name is None")
-        self.user.create_repo(
+        return self.user.create_repo(
             name,
             description=description,
             homepage=homepage,
@@ -53,3 +53,6 @@ class User:
 
     def get_login(self):
         return self.user.login
+
+    def create_project(self, name: str, body: str = gh.GithubObject.NotSet):
+        return self.user.create_project(name, body=body)

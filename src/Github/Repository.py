@@ -14,3 +14,6 @@ class Repository:
 
     def create_secret(self, name: str, value: str):
         self.repo.create_secret(name, value)
+
+    def create_project(self, name: str):
+        return self.repo.create_project(name)

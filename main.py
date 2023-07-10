@@ -79,7 +79,7 @@ def main():
     if args.commit is not None:
         commit = args.commit[0]
     check_all(github, sshParser, mirror_name)
-    generate_mirror(sshParser.organizationName, sshParser.repositoryName, github, mirror_name)
+    generate_mirror(sshParser.organizationName, sshParser.repositoryName, github, mirror_name, args.project)
     generate_folders_with_repo(sshParser.sshKey, sshParser.projectName, github.get_user().get_login(), sshParser.repositoryName,
                                mirror_name)
     generate_mirror_workflow(sshParser.projectName, sshParser.repositoryName, mirror_name)
