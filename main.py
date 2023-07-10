@@ -58,7 +58,10 @@ def check_all(github: Github, sshParser: SshKeyRepositoryParserEpitech, mirror_n
 
 def main():
     args = argumentManager()
-    json_file = json.load(open("data.json"))
+    input_file = "data.json"
+    if args.input_file is not None:
+        input_file = args.input_file[0]
+    json_file = json.load(open(input_file))
     if (json_file["token"] == "[your token]"):
         print(f"{bcolors.FAIL}You need to change the token in data.json{bcolors.ENDC}")
         exit(84)
