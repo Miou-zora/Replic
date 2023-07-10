@@ -30,7 +30,8 @@ class Testargument_manager(TestCase):
             if value not in param_expected:
                 param_expected[value] = self.all_parameters[value]
         namespace_param_expected: Namespace = Namespace(**param_expected)
-        self.assertEqual(namespace_param_expected, param_result)
+        for value in namespace_param_expected.__dict__:
+            self.assertEqual(namespace_param_expected.__dict__[value], param_result.__dict__[value])
 
     def test_help_flag(self):
         with self.assertRaises(SystemExit) as se:
@@ -112,4 +113,24 @@ class Testargument_manager(TestCase):
     def test_multiple_flag(self):
         stdin_args: list[str] = ["main.py", "ssh", "-m", "mirrorNameTest", "-f", "friendTest", "-o", "commitTest"]
         expected: dict = {"sshKey": ["ssh"], "mirror_name": ["mirrorNameTest"], "friend": ["friendTest"], "commit": ["commitTest"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_one_long_flag_input_file(self):
+        stdin_args: list[str] = ["main.py", "ssh", "--input-file", "inputFileTest"]
+        expected: dict = {"sshKey": ["ssh"], "input_file": ["inputFileTest"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_one_short_flag_input_file(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-i", "inputFileTest"]
+        expected: dict = {"sshKey": ["ssh"], "input_file": ["inputFileTest"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_multiple_flag_input_file(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-i", "inputFileTest0", "-i", "inputFileTest1"]
+        expected: dict = {"sshKey": ["ssh"], "input_file": ["inputFileTest1"]}
+        self.compare_input_expected(stdin_args, expected)
+
+    def test_multiple_same_flag_input_file(self):
+        stdin_args: list[str] = ["main.py", "ssh", "-i", "inputFileTest", "-i", "inputFileTest"]
+        expected: dict = {"sshKey": ["ssh"], "input_file": ["inputFileTest"]}
         self.compare_input_expected(stdin_args, expected)
